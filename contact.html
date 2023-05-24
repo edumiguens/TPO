@@ -1,0 +1,117 @@
+<html>
+
+<head>
+    <title>AKIM Veterinary</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="images/dog.png">
+</head>
+
+<body>
+    <header>
+        <h1>AKIM Veterinary</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">INICIO</a></li>
+            <li><a href="services.html">Servicios</a></li>
+            <li><a href="about.html">Nosotros</a></li>
+            <li><a href="contact.html">Contactos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="centrado">
+            <h2>Nuestros Datos</h2>
+            <p><span style="color: #884747;"><strong>Direccion:</strong></span> &nbsp;Plaza Irlanda</p>
+            <p><span style="color: #884747;"><strong>Mail:</strong></span> &nbsp;akim@veterinaria.com</p>
+            <p><span style="color: #884747;"><strong>Tel:</strong></span>&nbsp;&nbsp;1122223332</p>
+        </div>
+
+    </main>
+
+    <div class="container">
+        <h2>Formulario de contacto</h2>
+        <form id="my-form" action="https://formspree.io/f/xrgvvqzy" method="POST">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        var form = document.getElementById("my-form");
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+
+        if (!name || !email || !message) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("my-form-status");
+            var data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "Thanks for your submission!";
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                        } else {
+                            status.innerHTML = "Oops! There was a problem submitting your form"
+                        }
+                    })
+                }
+            }).catch(error => {
+                status.innerHTML = "Oops! There was a problem submitting your form"
+            });
+        }
+        form.addEventListener("submit", handleSubmit)
+
+        document.getElementById('my-form').reset();
+
+    </script>
+
+    <!--     <script>
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+
+        if (!name || !email || !message) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+        document.getElementById('contact-form').reset();
+        alert('Form submitted successfully!');
+    });
+    </script> -->
+
+    <footer>
+        <p>&copy; 2023 AKIM Veterinary. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
